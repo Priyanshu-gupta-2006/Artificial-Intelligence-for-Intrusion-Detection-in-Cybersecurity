@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity AI Dashboard</title>
+  <!-- Boxicons for icons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <!-- Link to the CSS style file -->
+  <link rel="stylesheet" href="style.css">
+  <!-- jQuery (needed for our AJAX call) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <!-- Container based on your design -->
+  <div class="container">
+    <!-- We use only the "login" box to display our dashboard -->
+    <div class="form-box login">
+      <!-- The form’s submission is intercepted to call our AJAX function -->
+      <form onsubmit="event.preventDefault(); analyzeActivity();">
+        <h1>Cybersecurity AI System</h1>
+        <p>Enter a new activity to analyze:</p>
+        <div class="input-box">
+          <input type="text" id="activityInput" placeholder="e.g., delete_file" required>
+          <!-- An example icon; you can change it if needed -->
+          <i class='bx bxs-file'></i>
+        </div>
+        <button type="submit" class="btn">Analyze</button>
+  <!-- This paragraph will be updated with the backend response -->
+  <p id="result"></p>
+</form>
+</div>
+</div>
+
+<!-- JavaScript to handle the AJAX call -->
+<script>
+function analyzeActivity() {
+let activity = document.getElementById('activityInput').value;
+$.ajax({
+  url: '/analyze', // This endpoint should be handled on your backend.
+  type: 'POST',
+  contentType: 'application/json',
+  data: JSON.stringify({ activity: activity }),
+  success: function(response) {
+    document.getElementById('result').innerText = response.message;
+  },
+  error: function() {
+    document.getElementById('result').innerText = "Error processing request.";
+  }
+});
+}
+</script>
+</body>
+</html>
